@@ -38,11 +38,15 @@ public class Game {
     }
 
     public void play(){
-        printBoard();
         for (round = 0; round < maxRounds; round++) {
-            setField();
-            winCheck();
+            if (!gameWon){
+                printBoard();
+                setField();
+            }
             if (gameWon || round == (maxRounds-1)){
+                if (!gameWon) {
+                    drawCount++;
+                }
                 scoreBoard();
                 endGameChoices();
             }
@@ -50,6 +54,7 @@ public class Game {
     }
 
     public void printBoard() {
+        System.out.println();
         for (int fieldIndex = 0; fieldIndex < board.length; fieldIndex++) {
             System.out.print(board[fieldIndex].getToken() + " ");
             if(fieldIndex == 2 || fieldIndex == 5) { //In de array staan op deze posities de nummer '3' en '6'.
@@ -66,8 +71,14 @@ public class Game {
         if(chosenIndex < 9 && chosenIndex >= 0) {
             if(board[chosenIndex].isEmpty()) {
                 board[chosenIndex].setToken(activePlayer.getToken());
-                printBoard();
-                changePlayer();
+                winCheck();
+                if (!gameWon) {
+                    changePlayer();
+                }
+                if (gameWon){
+                    activePlayer.addScore();
+                    changePlayer();
+                }
             } //of al bezet is
             else {
                 maxRounds++;
@@ -90,89 +101,45 @@ public class Game {
     }
 
     public void winCheck() {
-        if (board[0].getToken() == this.player1.getToken() && board[1].getToken() == this.player1.getToken() && board[2].getToken() == this.player1.getToken()){
+        if (board[0].getToken() == board[1].getToken() && board[0].getToken() == board[2].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[3].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[5].getToken() == this.player1.getToken()){
+        if (board[3].getToken() == board[4].getToken() && board[3].getToken() == board[5].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[6].getToken() == this.player1.getToken() && board[7].getToken() == this.player1.getToken() && board[8].getToken() == this.player1.getToken()){
+        if (board[6].getToken() == board[7].getToken() && board[6].getToken() == board[8].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[6].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[2].getToken() == this.player1.getToken()){
+        if (board[6].getToken() == board[4].getToken() && board[6].getToken() == board[2].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[0].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[8].getToken() == this.player1.getToken()){
+        if (board[0].getToken() == board[4].getToken() && board[0].getToken() == board[8].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[0].getToken() == this.player1.getToken() && board[3].getToken() == this.player1.getToken() && board[6].getToken() == this.player1.getToken()){
+        if (board[0].getToken() == board[3].getToken() && board[0].getToken() == board[6].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[1].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[7].getToken() == this.player1.getToken()){
+        if (board[1].getToken() == board[4].getToken() && board[1].getToken() == board[7].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[2].getToken() == this.player1.getToken() && board[5].getToken() == this.player1.getToken() && board[8].getToken() == this.player1.getToken()){
+        if (board[2].getToken() == board[5].getToken() && board[2].getToken() == board[8].getToken()){
             gameWon = true;
-            player1.addScore();
-        }
-        if (board[0].getToken() == this.player2.getToken() && board[1].getToken() == this.player2.getToken() && board[2].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[3].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[5].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[6].getToken() == this.player2.getToken() && board[7].getToken() == this.player2.getToken() && board[8].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[6].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[2].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[0].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[8].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[0].getToken() == this.player2.getToken() && board[3].getToken() == this.player2.getToken() && board[6].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[1].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[7].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[2].getToken() == this.player2.getToken() && board[5].getToken() == this.player2.getToken() && board[8].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
         }
     }
 
-    public void endGameChoices(){
+    public void endGameChoices() {
         System.out.println("The game has ended. Please select one of the following options: " +
                 "\n'1': Start again." + "\n'2': Change players." + "\n'3': Quit game.");
-        do {
             endGameChoice = PLAYERINPUT.nextInt();
             if (endGameChoice >= 1 && endGameChoice <= 3) {
-                switch(endGameChoice){
+                switch (endGameChoice) {
                     case 1:
                         board = new Field[9];
                         for (int fieldIndex = 0; fieldIndex < 9; fieldIndex++) {
-                            board[fieldIndex] = new Field(fieldIndex +1);
+                            board[fieldIndex] = new Field(fieldIndex + 1);
                         }
-                        maxRounds = (board.length+1);
+                        maxRounds = (board.length + 1);
                         round = 0;
-                        if (!gameWon){
-                            drawCount++;
-                        }
                         gameWon = false;
                         break;
                     case 2:
@@ -185,9 +152,9 @@ public class Game {
 
                         board = new Field[9];
                         for (int fieldIndex = 0; fieldIndex < 9; fieldIndex++) {
-                            board[fieldIndex] = new Field(fieldIndex +1);
+                            board[fieldIndex] = new Field(fieldIndex + 1);
                         }
-                        maxRounds = (board.length+1);
+                        maxRounds = (board.length + 1);
                         round = 0;
                         gameWon = false;
                         activePlayer = player1;
@@ -196,11 +163,9 @@ public class Game {
                         round = maxRounds;
                         break;
                 }
-            } else{
-                System.out.println("This option is unavailable, please try again.");
+            } else {
+                System.out.println("Option not available, please try again.");
             }
-        } while(endGameChoice > 3);
-
     }
 
     public void scoreBoard(){
