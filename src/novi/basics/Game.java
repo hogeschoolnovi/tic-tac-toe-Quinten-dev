@@ -41,7 +41,6 @@ public class Game {
         printBoard();
         for (round = 0; round < maxRounds; round++) {
             setField();
-            winCheck();
             System.out.println(gameWon);
             if (gameWon || round == (maxRounds-1)){
                 scoreBoard();
@@ -68,7 +67,14 @@ public class Game {
             if(board[chosenIndex].isEmpty()) {
                 board[chosenIndex].setToken(activePlayer.getToken());
                 printBoard();
-                changePlayer();
+                winCheck();
+                if (!gameWon) {
+                    changePlayer();
+                }
+                if (gameWon){
+                    activePlayer.addScore();
+                    changePlayer();
+                }
             } //of al bezet is
             else {
                 maxRounds++;
@@ -91,69 +97,29 @@ public class Game {
     }
 
     public void winCheck() {
-        if (board[0].getToken() == this.player1.getToken() && board[1].getToken() == this.player1.getToken() && board[2].getToken() == this.player1.getToken()){
+        if (board[0].getToken() == board[1].getToken() && board[0].getToken() == board[2].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[3].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[5].getToken() == this.player1.getToken()){
+        if (board[3].getToken() == board[4].getToken() && board[3].getToken() == board[5].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[6].getToken() == this.player1.getToken() && board[7].getToken() == this.player1.getToken() && board[8].getToken() == this.player1.getToken()){
+        if (board[6].getToken() == board[7].getToken() && board[6].getToken() == board[8].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[6].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[2].getToken() == this.player1.getToken()){
+        if (board[6].getToken() == board[4].getToken() && board[6].getToken() == board[2].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[0].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[8].getToken() == this.player1.getToken()){
+        if (board[0].getToken() == board[4].getToken() && board[0].getToken() == board[8].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[0].getToken() == this.player1.getToken() && board[3].getToken() == this.player1.getToken() && board[6].getToken() == this.player1.getToken()){
+        if (board[0].getToken() == board[3].getToken() && board[0].getToken() == board[6].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[1].getToken() == this.player1.getToken() && board[4].getToken() == this.player1.getToken() && board[7].getToken() == this.player1.getToken()){
+        if (board[1].getToken() == board[4].getToken() && board[1].getToken() == board[7].getToken()){
             gameWon = true;
-            player1.addScore();
         }
-        if (board[2].getToken() == this.player1.getToken() && board[5].getToken() == this.player1.getToken() && board[8].getToken() == this.player1.getToken()){
+        if (board[2].getToken() == board[5].getToken() && board[2].getToken() == board[8].getToken()){
             gameWon = true;
-            player1.addScore();
-        }
-        if (board[0].getToken() == this.player2.getToken() && board[1].getToken() == this.player2.getToken() && board[2].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[3].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[5].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[6].getToken() == this.player2.getToken() && board[7].getToken() == this.player2.getToken() && board[8].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[6].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[2].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[0].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[8].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[0].getToken() == this.player2.getToken() && board[3].getToken() == this.player2.getToken() && board[6].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[1].getToken() == this.player2.getToken() && board[4].getToken() == this.player2.getToken() && board[7].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
-        }
-        if (board[2].getToken() == this.player2.getToken() && board[5].getToken() == this.player2.getToken() && board[8].getToken() == this.player2.getToken()){
-            gameWon = true;
-            player2.addScore();
         }
     }
 
@@ -200,7 +166,7 @@ public class Game {
             } else{
                 System.out.println("This option is unavailable, please try again.");
             }
-        } while(endGameChoice > 3);
+        } while(endGameChoice > 3 && endGameChoice <= 0);
 
     }
 
