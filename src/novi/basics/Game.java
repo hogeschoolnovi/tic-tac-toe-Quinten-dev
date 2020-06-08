@@ -42,7 +42,7 @@ public class Game {
         for (round = 0; round < maxRounds; round++) {
             setField();
             winCheck();
-            System.out.println(gameWon);
+            System.out.println(winOrNot());
             if (gameWon || round == (maxRounds-1)){
                 scoreBoard();
                 endGameChoices();
@@ -154,6 +154,14 @@ public class Game {
         if (board[2].getToken() == this.player2.getToken() && board[2] == board[5] && board[2] == board[8]){
             gameWon = true;
             player2.addScore();
+        }
+    }
+
+    public boolean winOrNot(){
+        if (board[0].getToken() == board[1].getToken()){
+            return true;
+        } else {
+            return false;
         }
     }
 
