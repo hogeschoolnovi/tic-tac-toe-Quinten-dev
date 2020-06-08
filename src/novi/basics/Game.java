@@ -158,7 +158,7 @@ public class Game {
     }
 
     public boolean winOrNot(){
-        if (board[0].getToken() == board[1].getToken()){
+        if (board[0].getToken() == board[1].getToken() && board[0].getToken() == board[2].getToken()){
             return true;
         } else {
             return false;
