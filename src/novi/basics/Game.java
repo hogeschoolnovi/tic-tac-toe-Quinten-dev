@@ -38,11 +38,15 @@ public class Game {
     }
 
     public void play(){
-        printBoard();
         for (round = 0; round < maxRounds; round++) {
-            setField();
-            System.out.println(gameWon);
+            if (!gameWon){
+                printBoard();
+                setField();
+            }
             if (gameWon || round == (maxRounds-1)){
+                if (!gameWon) {
+                    drawCount++;
+                }
                 scoreBoard();
                 endGameChoices();
             }
@@ -50,6 +54,7 @@ public class Game {
     }
 
     public void printBoard() {
+        System.out.println();
         for (int fieldIndex = 0; fieldIndex < board.length; fieldIndex++) {
             System.out.print(board[fieldIndex].getToken() + " ");
             if(fieldIndex == 2 || fieldIndex == 5) { //In de array staan op deze posities de nummer '3' en '6'.
@@ -66,7 +71,6 @@ public class Game {
         if(chosenIndex < 9 && chosenIndex >= 0) {
             if(board[chosenIndex].isEmpty()) {
                 board[chosenIndex].setToken(activePlayer.getToken());
-                printBoard();
                 winCheck();
                 if (!gameWon) {
                     changePlayer();
@@ -123,23 +127,19 @@ public class Game {
         }
     }
 
-    public void endGameChoices(){
+    public void endGameChoices() {
         System.out.println("The game has ended. Please select one of the following options: " +
                 "\n'1': Start again." + "\n'2': Change players." + "\n'3': Quit game.");
-        do {
             endGameChoice = PLAYERINPUT.nextInt();
             if (endGameChoice >= 1 && endGameChoice <= 3) {
-                switch(endGameChoice){
+                switch (endGameChoice) {
                     case 1:
                         board = new Field[9];
                         for (int fieldIndex = 0; fieldIndex < 9; fieldIndex++) {
-                            board[fieldIndex] = new Field(fieldIndex +1);
+                            board[fieldIndex] = new Field(fieldIndex + 1);
                         }
-                        maxRounds = (board.length+1);
+                        maxRounds = (board.length + 1);
                         round = 0;
-                        if (!gameWon){
-                            drawCount++;
-                        }
                         gameWon = false;
                         break;
                     case 2:
@@ -152,9 +152,9 @@ public class Game {
 
                         board = new Field[9];
                         for (int fieldIndex = 0; fieldIndex < 9; fieldIndex++) {
-                            board[fieldIndex] = new Field(fieldIndex +1);
+                            board[fieldIndex] = new Field(fieldIndex + 1);
                         }
-                        maxRounds = (board.length+1);
+                        maxRounds = (board.length + 1);
                         round = 0;
                         gameWon = false;
                         activePlayer = player1;
@@ -163,11 +163,9 @@ public class Game {
                         round = maxRounds;
                         break;
                 }
-            } else{
-                System.out.println("This option is unavailable, please try again.");
+            } else {
+                System.out.println("Option not available, please try again.");
             }
-        } while(endGameChoice > 3 && endGameChoice <= 0);
-
     }
 
     public void scoreBoard(){
