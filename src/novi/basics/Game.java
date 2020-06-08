@@ -91,7 +91,7 @@ public class Game {
     }
 
     public void winCheck() {
-        if (board[0].getToken() == this.player1.getToken() && (board[0] == board[1] && board[0] == board[2])){
+        if (board[0].getToken() == this.player1.getToken() && board[0] == board[1] && board[0] == board[2]){
             gameWon = true;
             player1.addScore();
         }
